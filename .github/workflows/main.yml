@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - "plugins/plugin-customer-journey/**"
-      - ".github/workflows/deploy-workscreen.yml"
-      - "*"
+#    paths:
+#      - "plugins/plugin-customer-journey/**"
+#      - ".github/workflows/deploy-workscreen.yml"
+#      - "*"
   pull_request:
 
 env:
