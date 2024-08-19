@@ -54,11 +54,14 @@ jobs:
           TWILIO_AUTH_TOKEN: ${{ secrets.GLOBAL_TWILIO_AUTH_TOKEN }}
         run: twilio plugins:install @twilio-labs/plugin-flex@6.2.3
 
-      - name: Install Dev Dependencies for Unit Tests
-        run: yarn plugin-customer-journey install:dev
+      - name: Run test
+        run: twilio flex:plugins:test
+        
+#      - name: Install Dev Dependencies for Unit Tests
+#        run: yarn plugin-customer-journey install:dev
 
-      - name: Run plugin unit tests
-        run: yarn plugin-customer-journey-test
+#      - name: Run plugin unit tests
+#        run: yarn plugin-customer-journey-test
 
-      - name: Build plugin
-        run: yarn plugin-customer-journey build
+#      - name: Build plugin
+#        run: yarn plugin-customer-journey build
