@@ -62,4 +62,3 @@ jobs:
 
       - name: Build plugin
         run: yarn plugin-customer-journey build
-Collapse
