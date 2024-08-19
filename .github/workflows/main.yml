@@ -55,11 +55,14 @@ jobs:
           TWILIO_AUTH_TOKEN: ${{ secrets.GLOBAL_TWILIO_AUTH_TOKEN }}
         run: twilio plugins:install @twilio-labs/plugin-flex@6.2.3
 
+      - name: Run twilio version
+        run: twilio version
+        
       - name: Run test
-        env:
-          TWILIO_ACCOUNT_SID: ${{ secrets.GLOBAL_TWILIO_ACCOUNT_SID }}
-          TWILIO_AUTH_TOKEN: ${{ secrets.GLOBAL_TWILIO_AUTH_TOKEN }}
-        run: twilio flex:plugins:test
+#        env:
+#          TWILIO_ACCOUNT_SID: ${{ secrets.GLOBAL_TWILIO_ACCOUNT_SID }}
+#          TWILIO_AUTH_TOKEN: ${{ secrets.GLOBAL_TWILIO_AUTH_TOKEN }}
+        run: twilio flex:plugins:test -l debug
         
 #      - name: Install Dev Dependencies for Unit Tests
 #        run: yarn plugin-customer-journey install:dev
