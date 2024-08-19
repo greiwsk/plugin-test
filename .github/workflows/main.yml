@@ -1,0 +1,65 @@
+name: Twilio Flex Run Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "plugins/plugin-customer-journey/**"
+      - ".github/workflows/deploy-workscreen.yml"
+      - "*"
+  pull_request:
+
+env:
+  ENVIRONMENT: production
+  SKIP_PREFLIGHT_CHECK: true
+  UNBUNDLED_REACT: true
+  TWILIO_ACCOUNT_SID: ${{ secrets.GLOBAL_TWILIO_ACCOUNT_SID }}
+  TWILIO_AUTH_TOKEN: ${{ secrets.GLOBAL_TWILIO_AUTH_TOKEN }}
+  COMMIT_MESSAGE: $(git log -1 --pretty=format:"%s" "${{ github.sha }}") || echo 'no commit message'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Log Node.js Version
+        run: node --version
+
+      - name: Install twilio cli
+        env:
+          UNBUNDLED_REACT: true
+          TWILIO_ACCOUNT_SID: ${{ secrets.GLOBAL_TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.GLOBAL_TWILIO_AUTH_TOKEN }}
+        # Install the Twilio CLI
+        run: |
+          wget -qO- https://twilio-cli-prod.s3.amazonaws.com/twilio_pub.asc \
+          | sudo apt-key add -
+          sudo touch /etc/apt/sources.list.d/twilio.list
+          echo 'deb https://twilio-cli-prod.s3.amazonaws.com/apt/ /' \
+          | sudo tee /etc/apt/sources.list.d/twilio.list
+          sudo apt update
+          sudo apt install -y twilio
+
+      - name: Install Flex Plugins extension for Twilio CLI
+        env:
+          UNBUNDLED_REACT: true
+          TWILIO_ACCOUNT_SID: ${{ secrets.GLOBAL_TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.GLOBAL_TWILIO_AUTH_TOKEN }}
+        run: twilio plugins:install @twilio-labs/plugin-flex@6.2.3
+
+      - name: Install Dev Dependencies for Unit Tests
+        run: yarn plugin-customer-journey install:dev
+
+      - name: Run plugin unit tests
+        run: yarn plugin-customer-journey-test
+
+      - name: Build plugin
+        run: yarn plugin-customer-journey build
+Collapse
