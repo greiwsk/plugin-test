@@ -56,7 +56,7 @@ jobs:
         run: twilio plugins:install @twilio-labs/plugin-flex@6.2.3
 
       - name: Run twilio version
-        run: twilio version
+        run: twilio version && twilio plugins
 
       - name: Install dependencies
         run: npm install
