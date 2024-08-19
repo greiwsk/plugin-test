@@ -57,6 +57,9 @@ jobs:
 
       - name: Run twilio version
         run: twilio version
+
+      - name: Install dependencies
+        run: npm install
         
       - name: Run test
 #        env:
