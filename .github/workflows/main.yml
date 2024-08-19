@@ -53,7 +53,7 @@ jobs:
           UNBUNDLED_REACT: true
           TWILIO_ACCOUNT_SID: ${{ secrets.GLOBAL_TWILIO_ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.GLOBAL_TWILIO_AUTH_TOKEN }}
-        run: twilio plugins:install @twilio-labs/plugin-flex@6.2.3
+        run: twilio plugins:install @twilio-labs/plugin-flex@7.0.1
 
       - name: Run twilio version
         run: twilio version
